@@ -176,25 +176,25 @@ for ii = 1:length(MRS_opt)
         outC = op_dccorr(outC,'p');
         outD = op_dccorr(outD,'p');
     end
-    if ~strcmp(MRS_opt(ii).seq, 'MEGA')
-        if strcmp(MRS_opt(ii).metab,'GABA')
-            h = figure(1);
-            subplot(4,1,1),plot(outA.ppm,outA.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp A'),title(sprintf('TE of %0.5g ms & editON @ %0.5g, %0.5g, %0.5g, and %0.5g',TE,MRS_opt(ii).editOnFreq1,MRS_opt(ii).editOnFreq2,MRS_opt(ii).editOnFreq3,MRS_opt(ii).editOnFreq4));
-            subplot(4,1,2),plot(outB.ppm,outB.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp B')
-            subplot(4,1,3),plot(outC.ppm,outC.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp C')
-            subplot(4,1,4),plot(outD.ppm,outD.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp D')
-            pause(0.1)
-        end
-    else
-        edited_signal = op_addScans(outA,outB,1);
-        b     = -1 * op_integrate(edited_signal,MRS_opt.ppm_min,MRS_opt.ppm_max,'re')/2;
-        %plots
-        h = figure(1);
-        subplot(3,1,1),plot(outA.ppm,outA.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.15]);ylabel('edit ON'), title(sprintf('TE %0.5g ms & edit ON/OFF @ %0.5g/%0.5g',TE,MRS_opt(ii).editOnFreq1,MRS_opt(ii).editOnFreq2));
-        subplot(3,1,2),plot(outB.ppm,outB.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.1]);ylabel('edit OFF')
-        subplot(3,1,3),plot(outB.ppm,outA.specs-outB.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.1]);ylabel('DIFF')
-        pause(0.1)
-    end
+%     if ~strcmp(MRS_opt(ii).seq, 'MEGA')
+%         if strcmp(MRS_opt(ii).metab,'GABA')
+%             h = figure(1);
+%             subplot(4,1,1),plot(outA.ppm,outA.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp A'),title(sprintf('TE of %0.5g ms & editON @ %0.5g, %0.5g, %0.5g, and %0.5g',TE,MRS_opt(ii).editOnFreq1,MRS_opt(ii).editOnFreq2,MRS_opt(ii).editOnFreq3,MRS_opt(ii).editOnFreq4));
+%             subplot(4,1,2),plot(outB.ppm,outB.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp B')
+%             subplot(4,1,3),plot(outC.ppm,outC.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp C')
+%             subplot(4,1,4),plot(outD.ppm,outD.specs),xlim([MRS_opt(ii).ppm_min,MRS_opt(ii).ppm_max]),ylim([-0.3 0.3]);ylabel('subexp D')
+%             pause(0.1)
+%         end
+%     else
+%         edited_signal = op_addScans(outA,outB,1);
+%         b     = -1 * op_integrate(edited_signal,MRS_opt.ppm_min,MRS_opt.ppm_max,'re')/2;
+%         %plots
+%         h = figure(1);
+%         subplot(3,1,1),plot(outA.ppm,outA.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.15]);ylabel('edit ON'), title(sprintf('TE %0.5g ms & edit ON/OFF @ %0.5g/%0.5g',TE,MRS_opt(ii).editOnFreq1,MRS_opt(ii).editOnFreq2));
+%         subplot(3,1,2),plot(outB.ppm,outB.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.1]);ylabel('edit OFF')
+%         subplot(3,1,3),plot(outB.ppm,outA.specs-outB.specs),xlim([MRS_opt.ppm_min,MRS_opt.ppm_max]),ylim([-0.1 0.1]);ylabel('DIFF')
+%         pause(0.1)
+%     end
     
     if ~strcmp(MRS_opt(ii).seq, 'MEGA')
         outA.name=metabolite;

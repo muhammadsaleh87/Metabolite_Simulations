@@ -23,22 +23,22 @@ addpath('/Users/muhammad/Documents/PostDoc_Hopkins/Work/Projects/HERMES_HERCULES
 
 % initialize metab parameters
 tic
-mega_or_hadam          = {'HERC'}; %Options: HERC, HERM, MEGA
+mega_or_hadam          = {'MEGA'}; %Options: HERC, HERM, MEGA
 if strcmp(mega_or_hadam, 'HERC') %HERCULES
-    metab                  = {'GABA','GSH'};%'Lac'};  %{'GABA','GSH','Lac'}; %GABA 2.8 3.2;  GSH: 2.85 3.05
+    metab                  = {'GABA','GSH'};
     TE                     = 80;
-    ppm_min                = [2.8 2.75];% 1.1]; %[2.8 2.75 1.1]; %2.85];
-    ppm_max                = [3.2 3.15];% 1.5];%[3.2 3.15 1.5]; %3.05];
+    ppm_min                = [2.8 2.75];
+    ppm_max                = [3.2 3.15];
     A                      = (4.58+1.9)/2; %dual-lobe pulse
     B                      = 4.58; %single-lobe pulse
     C                      = (4.18+1.9)/2; %dual-lobe pulse
     D                      = 4.18; %single-lobe pulse
     Nmetab                 = length(metab);   %Only metabolite to be run
 elseif strcmp(mega_or_hadam, 'HERM') %HERMES
-    metab                  = {'GABA','GSH'};  %{'GABA','GSH','Lac'}; %GABA 2.8 3.2;  GSH: 2.85 3.05
+    metab                  = {'GABA','GSH'};  %{'GABA','GSH','Lac'}; 
     TE                     = 80;
-    ppm_min                = [2.8 2.75];% 1.1]; %[2.8 2.75 1.1]; %2.85];
-    ppm_max                = [3.2 3.15];% 1.5];%[3.2 3.15 1.5]; %3.05];
+    ppm_min                = [2.8 2.75];% 
+    ppm_max                = [3.2 3.15];% 
     A                      = (4.56+1.9)/2; %dual-lobe pulse
     B                      = 4.56; %single-lobe pulse
     C                      = 1.90; %single-lobe pulse
@@ -48,8 +48,8 @@ else %MEGA-PRESS
     metab                  = {'GABA'};
     TE                     = 80;
     Nmetab                 = 1;   %Only metabolite to be run
-    ppm_min                = [2.80];% 1.1]; %[2.8 2.75 1.1]; %2.85];
-    ppm_max                = [3.20];% 1.5];%[3.2 3.15 1.5]; %3.05];
+    ppm_min                = [2.80];
+    ppm_max                = [3.20];
     A                      = 1.90; %single-lobe pulse
     B                      = 7.50; %single-lobe pulse
 %     create a struct variable
@@ -60,7 +60,7 @@ else %MEGA-PRESS
     MRS_temp.ppm_min       = ppm_min(Nmetab); %(ii);
     MRS_temp.ppm_max       = ppm_max(Nmetab); %(ii);
     MRS_temp.editON        = num2cell([A B]);
-    MRS_temp               = save_param_mega_hadamard(MRS_temp);
+    MRS_temp               = save_param_mega_hadamard(MRS_temp); % This is the function you need to edit to change the simulation parameters (not specified above this line)
     MRS_opt                = MRS_temp; % Creating a struct variable with dimens >=1;
 end
 
@@ -74,7 +74,7 @@ if ~strcmp(mega_or_hadam, 'MEGA')
         MRS_temp.ppm_min         = ppm_min(ii); %(ii);
         MRS_temp.ppm_max         = ppm_max(ii); %(ii);
         MRS_temp.editON          = num2cell([A B C D]);
-        MRS_temp                 = save_param_mega_hadamard(MRS_temp);
+        MRS_temp                 = save_param_mega_hadamard(MRS_temp); % This is the function you need to edit to change the simulation parameters (not specified above this line)
         MRS_opt(ii)              = MRS_temp; % Creating a struct variable with dimens >=1;
     end
 end
