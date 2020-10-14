@@ -180,16 +180,17 @@ end
 MRS_opt.sys=sys;
 %Calculate new delays by subtracting the pulse durations from the taus
 %vector;
-delays=zeros(size(taus));
-delays(1)           = taus(1)-(refTp/2);
-delays(2)=0; %taus(2)-((refTp+editTp)/2);
-delays(3)=0; %taus(3)-((editTp+refTp)/2);
-delays(4)=0; %taus(4)-((refTp+editTp)/2);
-delays(5)=0; %taus(5)-(editTp/2);
+delays         = zeros(size(taus));
+delays(1)      = taus(1)-(refTp/2);
+delays(2)      = 0; %taus(2)-((refTp+editTp)/2);
+delays(3)      = 0; %taus(3)-((editTp+refTp)/2);
+delays(4)      = 0; %taus(4)-((refTp+editTp)/2);
+delays(5)      = 0; %taus(5)-(editTp/2);
 MRS_opt.delays = delays;
 %Calculate Hamiltonian matrices and starting density matrix.
 [H,d]=sim_Hamiltonian_mgs(sys,Bfield);
-MRS_opt.H=H;
+MRS_opt.H = H;
+MRS_opt.d = d;
 %Creating propagators for editing pulse
 [MRS_opt.QoutONA]  = calc_shapedRF_propagator_edit(MRS_opt.H,MRS_opt.editRFonA,MRS_opt.editTp,MRS_opt.edit_flipAngle,0);
 [MRS_opt.QoutONB]  = calc_shapedRF_propagator_edit(MRS_opt.H,MRS_opt.editRFonB,MRS_opt.editTp,MRS_opt.edit_flipAngle,0);
@@ -201,25 +202,25 @@ end
 parfor X=1:length(MRS_opt.x)  %Use this if you do have the MATLAB parallel processing toolbox
     [Qrefoc{X}]  = calc_shapedRF_propagator_refoc(MRS_opt.H,MRS_opt.refRF,MRS_opt.refTp,MRS_opt.flipAngle,    0,MRS_opt.y(X),MRS_opt.Gx);
 end
-MRS_opt.Qrefoc=Qrefoc; 
+MRS_opt.Qrefoc = Qrefoc; 
 
-%% Start the sequence
-d=sim_excite(d,MRS_opt.H,'x');                                          %EXCITE
-d=sim_apply_pfilter(d,MRS_opt.H,-1);
-d=sim_evolve(d,MRS_opt.H,MRS_opt.delays(1)/1000);
-parfor X=1:length(MRS_opt.x)
-    d_temp     = apply_propagator_refoc(d,MRS_opt.H,MRS_opt.Qrefoc{X});  %Refocusing in the X-direction
-    d_temp2{X} = d_temp;
-end
-%calculate the average density matrix (Doing this inside a separate for
-%loop because I couldn't figure out how to do this inside the parfor loop):
-d_A=struct([]);
-parfor X=1:length(MRS_opt.x)
-    d_A         =sim_dAdd(d_A,d_temp2{X});
-end
-d_A       = sim_apply_pfilter(d_A,MRS_opt.H,+1);                   %Apply p_filter
-MRS_opt.d = d_A; %From here, transfer to the fminsearch loop
-end
+% %% Start the sequence
+% d=sim_excite(d,MRS_opt.H,'x');                                          %EXCITE
+% d=sim_apply_pfilter(d,MRS_opt.H,-1);
+% d=sim_evolve(d,MRS_opt.H,MRS_opt.delays(1)/1000);
+% parfor X=1:length(MRS_opt.x)
+%     d_temp     = apply_propagator_refoc(d,MRS_opt.H,MRS_opt.Qrefoc{X});  %Refocusing in the X-direction
+%     d_temp2{X} = d_temp;
+% end
+% %calculate the average density matrix (Doing this inside a separate for
+% %loop because I couldn't figure out how to do this inside the parfor loop):
+% d_A=struct([]);
+% parfor X=1:length(MRS_opt.x)
+%     d_A         =sim_dAdd(d_A,d_temp2{X});
+% end
+% d_A       = sim_apply_pfilter(d_A,MRS_opt.H,+1);                   %Apply p_filter
+% MRS_opt.d = d_A; %From here, transfer to the fminsearch loop
+% end
 
 
 
